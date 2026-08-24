@@ -1,0 +1,7 @@
+model,split,scope,encoded_feature_count,fit_iterations,fit_converged,evaluation_rows,positive_outcomes,outcome_rate,roc_auc,log_loss
+response,train,treated_rows,5040,7,True,1360294,4194,0.003083157023408175,0.9547571068075555,0.012669766233638986
+s_learner,train,observed_treatment_factual,5230,7,True,1600000,4658,0.00291125,0.9534771707073394,0.01198987221389069
+t_learner,train,observed_treatment_factual,5040,8,True,1600000,4658,0.00291125,0.9553459737548443,0.012026207517545698
+response,validation,treated_rows,5040,7,True,340074,1049,0.0030846227585760748,0.9570053233319431,0.01255164842854018
+s_learner,validation,observed_treatment_factual,5230,7,True,400000,1165,0.0029125,0.9545752540755637,0.01193887462404519
+t_learner,validation,observed_treatment_factual,5040,8,True,400000,1165,0.0029125,0.9564987737084689,0.011986864298636324

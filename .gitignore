@@ -1,0 +1,18 @@
+.DS_Store
+.venv/
+.uv-cache/
+.cache/
+.mplconfig/
+.pycache/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local render, inspection, and build-workspace artifacts
+tmp/
+
+# Large local dataset files and interrupted downloads
+data/*.csv
+data/*.csv.gz
+data/*.parquet
+data/*.part

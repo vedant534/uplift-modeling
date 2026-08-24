@@ -1,0 +1,198 @@
+{
+  "evaluation_id": "conversion_final_v2_20260818",
+  "protocol_version": 2,
+  "purpose": "One-shot validation-selected conversion-policy evaluation after excluding the legacy test and the governance-audit rehearsal sample.",
+  "legacy_result_status": "exploratory_not_eligible_for_new_budget_selection",
+  "rehearsal_result_status": "invalidated_for_confirmatory_use_final_frame_was_materialized_before_freeze",
+  "budget_provenance": {
+    "legacy_primary_budget": 0.2,
+    "legacy_budget_was_prespecified": "not_established",
+    "reason": "No dated ex-ante business constraint or analysis record is present in this project snapshot."
+  },
+  "data_contract": {
+    "dataset_version": "Criteo uplift v2.1 corrected/unbiased",
+    "source_sha256": "2716e1bf0fd157a93b5bf86924d9088419dfbac2022c6cd90030220634f616dc",
+    "outcome": "conversion",
+    "development_sample_size": 2000000,
+    "development_sampling_seed": 42,
+    "development_validation_fraction": 0.2,
+    "development_selected_row_index_sha256": "32a6a6f06004ede2f967bd13a925e6c616f5a145d012d233aa2057905959fe7c",
+    "reserved_previously_accessed_samples": [
+      {
+        "sample_role": "rehearsal_final_20260817",
+        "sample_size": 400000,
+        "sampling_seed": 20260817,
+        "selected_row_index_sha256": "03cfd456f5e9b6cb267628074b7f192e7b946ec19c128fce89d05f544c50c886",
+        "excluded_sample_roles": [
+          "development"
+        ]
+      }
+    ],
+    "pre_final_excluded_union_row_count": 2400000,
+    "pre_final_excluded_union_row_index_sha256": "09bb916cdfa1fafdcfbb05bf95d1153c437da0258a4b306bdc99dd730d07ea49",
+    "final_evaluation_sample_size": 400000,
+    "final_evaluation_sampling_seed": 20260818,
+    "final_evaluation_selected_row_index_sha256": "ce993fa6efceb07f6056aa01cebecaa100b093eb3ab97679d295b1bc9b4c867b",
+    "final_evaluation_requirement": "uniform sample from source rows excluded from development and every previously accessed final-evaluation sample",
+    "all_pinned_union_row_count": 2800000,
+    "all_pinned_union_row_index_sha256": "7f63613944691cef6197a9165ec194327f0c813beee75554c28362f484bdef86"
+  },
+  "model_contract": {
+    "outcome": "conversion",
+    "feature_columns": [
+      "f0",
+      "f1",
+      "f2",
+      "f3",
+      "f4",
+      "f5",
+      "f6",
+      "f7",
+      "f8",
+      "f9",
+      "f10",
+      "f11"
+    ],
+    "random_state": 42,
+    "logistic_estimator": "SGDClassifier(loss=log_loss, penalty=l2)",
+    "logistic_alpha": 0.0001
+  },
+  "policy_roles": {
+    "champion": "response",
+    "challenger": "t_learner",
+    "development_rejected_candidate": "s_learner",
+    "rejection_scope": "promotion against response at the legacy 20 percent operating point"
+  },
+  "selection": {
+    "sample": "development_validation",
+    "primary_estimator": "horvitz_thompson",
+    "candidate_policies": [
+      "response",
+      "t_learner",
+      "target_nobody"
+    ],
+    "candidate_budget_grid": {
+      "start": 0.01,
+      "stop": 1.0,
+      "step": 0.01
+    },
+    "objective": "maximize_incremental_net_value_vs_target_nobody",
+    "tie_break_order": [
+      "higher_incremental_net_value",
+      "lower_targeting_budget",
+      "champion_response_before_t_learner"
+    ]
+  },
+  "economic_scenarios": [
+    {
+      "name": "reference_margin_100_cost_0_50",
+      "role": "primary",
+      "currency": "hypothetical_currency_units",
+      "horizon": "per_100000_eligible_records",
+      "eligible_population": 100000,
+      "conversion_contribution_margin": 100.0,
+      "cost_per_assigned_target": 0.5
+    },
+    {
+      "name": "zero_targeting_cost",
+      "role": "sensitivity",
+      "currency": "hypothetical_currency_units",
+      "horizon": "per_100000_eligible_records",
+      "eligible_population": 100000,
+      "conversion_contribution_margin": 100.0,
+      "cost_per_assigned_target": 0.0
+    },
+    {
+      "name": "low_targeting_cost_0_10",
+      "role": "sensitivity",
+      "currency": "hypothetical_currency_units",
+      "horizon": "per_100000_eligible_records",
+      "eligible_population": 100000,
+      "conversion_contribution_margin": 100.0,
+      "cost_per_assigned_target": 0.1
+    },
+    {
+      "name": "high_targeting_cost_1_00",
+      "role": "sensitivity",
+      "currency": "hypothetical_currency_units",
+      "horizon": "per_100000_eligible_records",
+      "eligible_population": 100000,
+      "conversion_contribution_margin": 100.0,
+      "cost_per_assigned_target": 1.0
+    }
+  ],
+  "champion_challenger": {
+    "overlap_budgets": [
+      0.1,
+      0.2
+    ],
+    "switched_cohort_estimator": "horvitz_thompson_primary_hajek_sensitivity",
+    "promotion_budget": "response budget selected on validation under the primary economic scenario",
+    "promotion_rule_id": "paired_ht_net_value_superiority_95_hajek_direction",
+    "promotion_rule": "promote only if the paired 95 percent lower confidence bound for challenger minus champion incremental net value is greater than zero and the Hajek sensitivity estimate has the same direction",
+    "noninferiority_rule": null,
+    "online_requirement": "offline promotion qualifies a challenger for a prospective randomized online test; it does not authorize automatic deployment"
+  },
+  "final_reporting": {
+    "confirmatory_sample": "one-shot source-index-disjoint final evaluation sample loaded only after an immutable access claim",
+    "bootstrap_repetitions": 1000,
+    "validation_bootstrap_repetitions": 100,
+    "confidence_level": 0.95,
+    "secondary_budget_curves": "exploratory_only",
+    "target_nobody_incremental_net_value": 0.0
+  },
+  "execution_contract": {
+    "output_directory": "reports",
+    "source_access_order": [
+      "plan_source_indices_only",
+      "load_development_only",
+      "freeze_validation_decisions",
+      "create_immutable_final_access_claim",
+      "load_final_evaluation_only"
+    ],
+    "one_shot_final_evaluation": true,
+    "conflict_policy": "refuse_if_freeze_claim_or_receipt_exists",
+    "code_manifest_sha256": "702757b4f7d347f31c88d0a435745103d88dc0a6da0d1c168ba60b85ef25799c",
+    "code_manifest": {
+      "algorithm": "sha256",
+      "files": [
+        {
+          "path": "run_experiment.py",
+          "sha256": "e18cd5b670c43ff6cf7ff7b515c94143a3b1dbf1104741c389f333efcff271ca"
+        },
+        {
+          "path": "src/__init__.py",
+          "sha256": "dc032c3c57e1da44dbe08353ae9d4c111d5e4badb0ea7a84abcd910879bc7b98"
+        },
+        {
+          "path": "src/champion.py",
+          "sha256": "1e1fdd9b3942bb01a9864614f0c424d92f41897cd748a19d027cea531d01ab2b"
+        },
+        {
+          "path": "src/data.py",
+          "sha256": "16cd7147d8142f763394650d8ce371950d572cba072d386ab4030d3d858490bf"
+        },
+        {
+          "path": "src/diagnostics.py",
+          "sha256": "f00757e1ea8750428274047c058493f46a9f35831948611ba96c512124c25a0f"
+        },
+        {
+          "path": "src/economics.py",
+          "sha256": "66ab5cc874f52f6f9a65e32feee6ea3856111219b532ae082116fdf0f1916cc5"
+        },
+        {
+          "path": "src/evaluation.py",
+          "sha256": "715d7fcec91b3875829f287f3d528a627dac26db9d188786824acd318742af17"
+        },
+        {
+          "path": "src/governance.py",
+          "sha256": "71cc215e6701ec85683cdc793a7b413308835e7c1ee9b7c656a5e1c118c3bb2b"
+        },
+        {
+          "path": "src/models.py",
+          "sha256": "9e755421420ef3057a86c80dac6336aaefd02c8937bb204f7cbd79a5584c0bde"
+        }
+      ]
+    }
+  }
+}

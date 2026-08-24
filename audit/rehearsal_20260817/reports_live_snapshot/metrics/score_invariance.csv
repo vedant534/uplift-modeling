@@ -1,0 +1,4 @@
+policy,observed_test_treatment_shuffled,scores_exactly_unchanged,max_absolute_score_change
+response,True,True,0.0
+s_learner,True,True,0.0
+t_learner,True,True,0.0

@@ -1,0 +1,98 @@
+{
+  "headline": "Validation selected response at 2% under the explicitly hypothetical primary economic scenario. On the fresh disjoint final sample, its incremental net value versus target nobody was 4825.4 hypothetical_currency_units; retain_champion_superiority_not_demonstrated.",
+  "legacy_20_percent_result_status": "exploratory_not_eligible_for_new_budget_selection",
+  "primary_estimator": "horvitz_thompson",
+  "primary_economic_scenario": {
+    "scenario_label": "reference_margin_100_cost_0_50",
+    "currency": "hypothetical_currency_units",
+    "horizon": "per_100000_eligible_records",
+    "margin_per_conversion": 100.0,
+    "cost_per_assigned_target": 0.5,
+    "validation_selected_policy": "response",
+    "validation_selected_budget": 0.02,
+    "final_incremental_net_value_vs_target_nobody": 4825.433452739203,
+    "final_incremental_net_value_ci": [
+      1540.4686183229317,
+      7933.512514943138
+    ],
+    "final_break_even_cost_per_assigned_target": 2.912716726369601
+  },
+  "champion_challenger": {
+    "champion": "response",
+    "challenger": "t_learner",
+    "development_rejected_candidate": "s_learner",
+    "promotion": {
+      "champion_policy": "response",
+      "challenger_policy": "t_learner",
+      "scenario_label": "reference_margin_100_cost_0_50",
+      "promotion_rule": "promote only if the paired 95 percent lower confidence bound for challenger minus champion incremental net value is greater than zero and the Hajek sensitivity estimate has the same direction",
+      "noninferiority_rule": null,
+      "scope": "offline_fixed_policy_evidence_only",
+      "metric": "paired_incremental_net_value_challenger_minus_champion",
+      "delta_direction": "challenger_minus_champion_positive_favors_challenger",
+      "delta_estimate": -500.4220194785545,
+      "ci_low": -2454.898151012192,
+      "ci_high": 1471.8652016603107,
+      "rule": "superiority",
+      "decision_threshold": 0.0,
+      "rule_passed": false,
+      "superiority_demonstrated": false,
+      "noninferiority_demonstrated": null,
+      "evidence_status": "difference_inconclusive",
+      "decision": "retain_champion_superiority_not_demonstrated",
+      "promotion_budget": 0.02,
+      "cost_difference_at_equal_budget": 0.0,
+      "hajek_net_value_delta": -494.0381598595323,
+      "hajek_direction_consistent": false,
+      "online_requirement": "offline promotion qualifies a challenger for a prospective randomized online test; it does not authorize automatic deployment"
+    },
+    "overlap_diagnostics": [
+      {
+        "budget": 0.1,
+        "targeted_count": 40000,
+        "jaccard": 0.69527442254715,
+        "intersection_count": 32810,
+        "champion_only_count": 7190,
+        "challenger_only_count": 7190,
+        "total_switched_count": 14380,
+        "switched_ht_uplift_delta_per_1000": -3.493558377708241,
+        "switched_ht_uplift_delta_per_1000_ci_low": -13.459771584092586,
+        "switched_ht_uplift_delta_per_1000_ci_high": 7.122493039908758
+      },
+      {
+        "budget": 0.2,
+        "targeted_count": 80000,
+        "jaccard": 0.736431416385401,
+        "intersection_count": 67857,
+        "champion_only_count": 12143,
+        "challenger_only_count": 12143,
+        "total_switched_count": 24286,
+        "switched_ht_uplift_delta_per_1000": -0.227952579798286,
+        "switched_ht_uplift_delta_per_1000_ci_low": -6.057820970975762,
+        "switched_ht_uplift_delta_per_1000_ci_high": 5.870921775427461
+      }
+    ]
+  },
+  "fresh_final_20_percent_diagnostic": {
+    "s_learner": {
+      "ht_incremental_per_1000_targeted": 3.59906254969396,
+      "ht_minus_response_per_1000": -0.9218849583653648,
+      "ht_minus_response_ci": [
+        -1.925945194343589,
+        0.012910016974879333
+      ],
+      "conclusion_vs_response": "worse"
+    },
+    "t_learner": {
+      "ht_incremental_per_1000_targeted": 4.486347155853202,
+      "ht_minus_response_per_1000": -0.03460035220612312,
+      "ht_minus_response_ci": [
+        -0.9228160076858536,
+        0.8860483020985482
+      ],
+      "conclusion_vs_response": "inconclusive"
+    }
+  },
+  "treatment_leakage_diagnostic_auc": 0.5003129786557436,
+  "bootstrap_repetitions": 1000
+}

@@ -1,0 +1,2 @@
+model,feature_columns,encoded_feature_count,fit_iterations,fit_converged,train_rows,test_rows,train_treatment_share,test_treatment_share,roc_auc,log_loss,constant_log_loss,log_loss_improvement_vs_constant
+sparse_categorical_logistic,"f0,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11",5230,10,True,1600000,400000,0.85018375,0.8499825,0.5003129786557436,0.4232622072820628,0.4227396010550049,-0.000522606227057909

@@ -1,0 +1,100 @@
+{
+  "protocol_version": 1,
+  "purpose": "Prospective selection and final evaluation after the legacy multi-budget test results were inspected.",
+  "legacy_result_status": "exploratory_not_eligible_for_new_budget_selection",
+  "budget_provenance": {
+    "legacy_primary_budget": 0.2,
+    "legacy_budget_was_prespecified": "not_established",
+    "reason": "No dated ex-ante business constraint or analysis record is present in this project snapshot."
+  },
+  "data_contract": {
+    "dataset_version": "Criteo uplift v2.1 corrected/unbiased",
+    "development_sample_size": 2000000,
+    "development_sampling_seed": 42,
+    "development_validation_fraction": 0.2,
+    "final_evaluation_sample_size": 400000,
+    "final_evaluation_sampling_seed": 20260817,
+    "final_evaluation_requirement": "uniform sample from source rows excluded from the development sample"
+  },
+  "policy_roles": {
+    "champion": "response",
+    "challenger": "t_learner",
+    "development_rejected_candidate": "s_learner",
+    "rejection_scope": "promotion against response at the legacy 20 percent operating point"
+  },
+  "selection": {
+    "sample": "development_validation",
+    "primary_estimator": "horvitz_thompson",
+    "candidate_policies": [
+      "response",
+      "t_learner",
+      "target_nobody"
+    ],
+    "candidate_budget_grid": {
+      "start": 0.01,
+      "stop": 1.0,
+      "step": 0.01
+    },
+    "objective": "maximize incremental net value versus target nobody",
+    "tie_break_order": [
+      "higher_incremental_net_value",
+      "lower_targeting_budget",
+      "champion_response_before_t_learner"
+    ]
+  },
+  "economic_scenarios": [
+    {
+      "name": "reference_margin_100_cost_0_50",
+      "role": "primary",
+      "currency": "hypothetical_currency_units",
+      "horizon": "per_100000_eligible_records",
+      "eligible_population": 100000,
+      "conversion_contribution_margin": 100.0,
+      "cost_per_assigned_target": 0.5
+    },
+    {
+      "name": "zero_targeting_cost",
+      "role": "sensitivity",
+      "currency": "hypothetical_currency_units",
+      "horizon": "per_100000_eligible_records",
+      "eligible_population": 100000,
+      "conversion_contribution_margin": 100.0,
+      "cost_per_assigned_target": 0.0
+    },
+    {
+      "name": "low_targeting_cost_0_10",
+      "role": "sensitivity",
+      "currency": "hypothetical_currency_units",
+      "horizon": "per_100000_eligible_records",
+      "eligible_population": 100000,
+      "conversion_contribution_margin": 100.0,
+      "cost_per_assigned_target": 0.1
+    },
+    {
+      "name": "high_targeting_cost_1_00",
+      "role": "sensitivity",
+      "currency": "hypothetical_currency_units",
+      "horizon": "per_100000_eligible_records",
+      "eligible_population": 100000,
+      "conversion_contribution_margin": 100.0,
+      "cost_per_assigned_target": 1.0
+    }
+  ],
+  "champion_challenger": {
+    "overlap_budgets": [
+      0.1,
+      0.2
+    ],
+    "switched_cohort_estimator": "horvitz_thompson_primary_hajek_sensitivity",
+    "promotion_budget": "response budget selected on validation under the primary economic scenario",
+    "promotion_rule": "promote only if the paired 95 percent lower confidence bound for challenger minus champion incremental net value is greater than zero and the Hajek sensitivity estimate has the same direction",
+    "noninferiority_rule": null,
+    "online_requirement": "offline promotion qualifies a challenger for a prospective randomized online test; it does not authorize automatic deployment"
+  },
+  "final_reporting": {
+    "confirmatory_sample": "fresh source-index-disjoint final evaluation sample",
+    "bootstrap_repetitions": 1000,
+    "secondary_budget_curves": "exploratory_only",
+    "target_nobody_incremental_net_value": 0.0
+  }
+}
